@@ -3,10 +3,7 @@
   "version": "1.0.0",
   "description": "chatbot-app",
   "main": "index.js",
-  "engines": {
-    "node": "10.15.0",
-    "npm": "6.9.0"
-  },
+  
   "scripts": {
     "start": "node index.js",
     "backend": "nodemon index.js",
