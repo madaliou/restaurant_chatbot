@@ -7,6 +7,9 @@ const uuid = require('uuid');
 const config = require('../config/keys');
 const { Opinion } = require('../models/Opinion.js');
 
+const { Pizza } = require('../models/Pizza.js');
+
+
 const projectId = config.googleProjectID
 const sessionId = config.dialogFlowSessionID
 const languageCode = config.dialogFlowSessionLanguageCode
@@ -80,9 +83,7 @@ router.post('/textQuery', async (req, res) => {
                 languageCode: languageCode,
             },
         },
-    };
-
-    
+    };    
 
     // Send request and log result
     const responses = await sessionClient.detectIntent(request);
@@ -91,9 +92,11 @@ router.post('/textQuery', async (req, res) => {
     console.log(`  Query: ${result.queryText}`);
     console.log(`  Response: ${result.fulfillmentText}`);
 
-    if(result.allRequiredParamsPresent){
+    console.log("resp : ", responses);
 
-        console.log('allRequired ok');
+    if(result.intent.displayName ==='Book Room' && result.allRequiredParamsPresent){
+
+        console.log('Room allRequired ok');
 
         const name = result.parameters.fields.person.structValue.fields.name.stringValue;
         const email = result.parameters.fields.email.stringValue;
@@ -110,6 +113,33 @@ router.post('/textQuery', async (req, res) => {
         });
     
         opinionMod.save();
+    }
+
+    if(result.intent.displayName ==='pizza-userparticulars' && result.allRequiredParamsPresent){
+
+        console.log('Pizza allRequired ok');
+
+        const firstname = result.parameters.fields.firstname.stringValue;
+
+        const lastname = result.parameters.fields.lastname.stringValue;
+
+        const phonenumber = result.parameters.fields.phonenumber.stringValue;
+
+        const postalcode = result.parameters.fields.postalcode.numberValue;
+
+       /*  const crusted = result.outputContexts[0].parameters.fields.pizza-crust;
+
+        const typed = result.outputContexts[0].parameters.fields.pizza-type;  */       
+
+        let payload = {firstname, lastname, phonenumber, postalcode};
+
+        console.log('payload : ', payload);
+
+        //console.log("the opinion  : ", opinion);
+    
+        let pizza = new Pizza(payload);
+
+        pizza.save();
     }
 
     res.send(result)
