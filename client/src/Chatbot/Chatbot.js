@@ -11,6 +11,8 @@ function Chatbot() {
 
     useEffect(() => {
 
+        console.log('first log');
+
         eventQuery('welcomeToMyWebsite')
 
     }, [])
@@ -35,19 +37,55 @@ function Chatbot() {
         const textQueryVariables = {
             text
         }
+
+        console.log('text query variables : ', textQueryVariables);
+
+       
         try {
             //I will send request to the textQuery ROUTE 
-            const response = await Axios.post('/api/dialogflow/textQuery', textQueryVariables)
+            if(textQueryVariables.text === 'list hotel'){
 
-            for (let content of response.data.fulfillmentMessages) {
+                console.log('list-hotel');
 
+                let hotels = {
+                    platform: "PLATFORM_UNSPECIFIED",
+                    text: {
+                        text: [
+                            'Radisson blu, Mint hotel, sarakawa'
+                        ]
+                    },
+                    message: "text"
+                }
+                const response = await Axios.post('/api/dialogflow/listHotel', textQueryVariables)
+                
                 conversation = {
                     who: 'bot',
-                    content: content
+                    content: hotels
                 }
 
+                console.log('the conversation : ', conversation);
+
                 dispatch(saveMessage(conversation))
+
+            }else {
+
+                console.log('not list-hotel');
+                const response = await Axios.post('/api/dialogflow/textQuery', textQueryVariables)
+
+                for (let content of response.data.fulfillmentMessages) {
+    
+                    conversation = {
+                        who: 'bot',
+                        content: content
+                    }
+    
+                    console.log('the conversation of not list-hotel: ', conversation);
+    
+                    dispatch(saveMessage(conversation))
+                }
+
             }
+           
 
 
         } catch (error) {
@@ -79,6 +117,7 @@ function Chatbot() {
             const response = await Axios.post('/api/dialogflow/eventQuery', eventQueryVariables)
             for (let content of response.data.fulfillmentMessages) {
 
+                
                 let conversation = {
                     who: 'bot',
                     content: content
@@ -107,7 +146,7 @@ function Chatbot() {
         if (e.key === "Enter") {
 
             if (!e.target.value) {
-                return alert('you need to type somthing first')
+                return alert('you need to type something first')
             }
 
             //we will send request to text query route 
@@ -119,7 +158,7 @@ function Chatbot() {
     }
 
     const renderCards = (cards) => {
-        return cards.map((card,i) => <Card key={i} cardInfo={card.structValue} />)
+        return cards.map((card, i) => <Card key={i} cardInfo={card.structValue} />)
     }
 
 
@@ -146,16 +185,7 @@ function Chatbot() {
             </div>
         }
 
-
-
-
-
-
         // template for card message 
-
-
-
-
     }
 
     const renderMessage = (returnedMessages) => {
