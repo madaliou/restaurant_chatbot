@@ -6,7 +6,7 @@ const PizzaSchema =  mongoose.Schema({
     phonenumber: String,
     postalcode: Number,
     crust: String,
-    type: String,
+    size: String,
     registerDate: { type:Date, default:Date.now }
 });
 

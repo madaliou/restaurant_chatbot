@@ -127,11 +127,11 @@ router.post('/textQuery', async (req, res) => {
 
         const postalcode = result.parameters.fields.postalcode.numberValue;
 
-       /*  const crusted = result.outputContexts[0].parameters.fields.pizza-crust;
+        const theCrust = result.parameters.fields.confirmCrust.stringValue;
 
-        const typed = result.outputContexts[0].parameters.fields.pizza-type;  */       
+        const theSize = result.parameters.fields.confirmSize.stringValue;      
 
-        let payload = {firstname, lastname, phonenumber, postalcode};
+        let payload = {firstname, lastname, phonenumber, postalcode, crust: theCrust, size: theSize};
 
         console.log('payload : ', payload);
 
@@ -174,10 +174,25 @@ router.post('/eventQuery', async (req, res) => {
     res.send(result)
 })
 
+router.get('/foods', async (req, res) => {
+    
+    Pizza.find().then((foods) => {
+        return res.status(200).json(foods);
+    })
+    .catch(error => {
+        return res.status(400).json(error);
+    });
+})
 
-
-
-
+router.get('/rooms', async (req, res) => {
+    
+    Opinion.find().then((rooms) => {
+        return res.status(200).json(rooms);
+    })
+    .catch(error => {
+        return res.status(400).json(error);
+    });
+})
 
 
 module.exports = router;
