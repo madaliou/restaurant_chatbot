@@ -56,7 +56,7 @@ function Chatbot() {
                     },
                     message: "text"
                 }
-                const response = await Axios.post('/api/dialogflow/listHotel', textQueryVariables)
+                //const response = await Axios.post('/api/dialogflow/listHotel', textQueryVariables)
                 
                 conversation = {
                     who: 'bot',
