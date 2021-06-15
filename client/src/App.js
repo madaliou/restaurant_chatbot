@@ -4,7 +4,7 @@ import Chatbot from './Chatbot/Chatbot';
 import Food from './Food/Food';
 import Room from './Room/Room';
 import {
-  BrowserRouter as Router,
+  //BrowserRouter as Router,
   Switch,
   Route,
   Link

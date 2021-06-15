@@ -1,4 +1,4 @@
-import React, { useEffect, useState , View}  from 'react';
+import React, { useEffect, useState }  from 'react';
 import Axios from 'axios';
 import DataTable from 'react-data-table-component';
 
@@ -16,7 +16,7 @@ import DataTable from 'react-data-table-component';
     },
   ]; */
 
-const data = [{ id: 1, title: 'Conan the Barbarian', year: '1982' }]
+//const data = [{ id: 1, title: 'Conan the Barbarian', year: '1982' }]
 const columns = [
   {
     name: 'Name',
